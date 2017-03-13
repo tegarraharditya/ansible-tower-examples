@@ -4,4 +4,8 @@
     - name: Hello Message
       debug:
         msg: "Hello World!"
+    - name: Make sure docker is running
+      service:
+        name: docker
+        state: started
 
