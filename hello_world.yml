@@ -3,9 +3,18 @@
   tasks:
     - name: Hello Message
       debug:
-        msg: "Hello World!"
+         msg: "Hello World!"
     - name: Make sure docker is running
       service:
-        name: docker
-        state: started
-
+         name: docker
+         state: started
+    - name: Launch the docker sonar postgresql
+      docker:
+          name: sonarpostdb
+          image: postgres
+          ports: 
+                 - 5432:5432
+          env:
+              - POSTGRES_USER: sonar 
+              - POSTGRES_PASSWORD: sonar123., 
+              - POSTGRES_DB: sonar
