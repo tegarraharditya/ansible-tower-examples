@@ -8,14 +8,30 @@
       service:
          name: docker
          state: started
-    - name: Launch the docker sonar postgresql
-      docker:
+    - name: Launch the docker container sonar postgresql
+      docker_container:
           name: sonarpostdb
           image: postgres
-          ports: 
+          state: present
+          published_ports: 
                  - 5432:5432
           env:
                POSTGRES_USER: sonar 
                POSTGRES_PASSWORD: sonar123., 
                POSTGRES_DB: sonar
       become: true
+    - name: Launch the docker container mysonar
+      docker_container:
+          name: mysonar
+          image: sonarqube
+          state: present
+          published_ports:
+                 - 9000:9000
+                 - 9092:9092
+          env:
+               SONARQUBE_JDBC_USERNAME: sonar 
+               SONARQUBE_JDBC_PASSWORD: sonar123., 
+               SONARQUBE_JDBC_URL: jdbc:postgresql://172.29.0.1:5432/sonar
+      become: true
+
+
